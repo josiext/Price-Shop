@@ -11,8 +11,20 @@ import {
   DrawerCloseButton,
   Input,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
+
+const PRODUCT_CATEGORIES = [
+  {
+    label: "sports",
+    id: "123",
+  },
+  {
+    label: "room",
+    id: "45439",
+  },
+];
 
 export default function Navbar({ openCart }: { openCart: () => void }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,10 +46,18 @@ export default function Navbar({ openCart }: { openCart: () => void }) {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Productos</DrawerHeader>
+          <DrawerHeader>Categories</DrawerHeader>
 
           <DrawerBody>
-            <Text>Drawer</Text>
+            <VStack alignItems="left">
+              {PRODUCT_CATEGORIES.map((item) => (
+                <Link key={item.id} href={`/product-categories/${item.id}`}>
+                  <a onClick={onClose}>
+                    <Text fontSize="lg">{item.label}</Text>
+                  </a>
+                </Link>
+              ))}
+            </VStack>
           </DrawerBody>
 
           <DrawerFooter>PriceShop</DrawerFooter>
