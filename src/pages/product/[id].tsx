@@ -18,7 +18,9 @@ const Product: NextPage = () => {
 
   return (
     <Box>
-      <Text mb="2">Product id: {id}</Text>
+      <Text mb="2" fontSize="sm" color="gray">
+        Product id: {id}
+      </Text>
 
       <Image
         src={PRODUCT.image}

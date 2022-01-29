@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import {
   Box,
   Button,
@@ -13,8 +12,9 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
+import Link from "next/link";
 
-export default function Navbar() {
+export default function Navbar({ openCart }: { openCart: () => void }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -23,9 +23,11 @@ export default function Navbar() {
         <Button colorScheme="teal" onClick={onOpen}>
           Menu
         </Button>
-        <Button>PriceShop</Button>
+        <Link href="/">
+          <a>PriceShop</a>
+        </Link>
         <Input placeholder="Search.." />
-        <Button>Cart</Button>
+        <Button onClick={openCart}>Cart</Button>
       </Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
