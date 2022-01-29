@@ -1,6 +1,6 @@
 # Price-Shop e-commerce
 
-## Instalation
+## Installation
 
 npm install
 
