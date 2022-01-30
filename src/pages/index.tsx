@@ -1,37 +1,23 @@
 import type { NextPage } from "next";
+import { Box, Text, Image, Badge, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
-import { Box, Text, Image, Badge, SimpleGrid } from "@chakra-ui/react";
 
-const PRODUCTS = [
-  {
-    id: "2",
-    title: "Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 ",
-    price: "150",
-    image: "https://bit.ly/2Z4KKcF",
-  },
-  {
-    id: "3",
-    title: "Product 2",
-    price: "250",
-    image: "https://bit.ly/2Z4KKcF",
-  },
-  {
-    id: "4",
-    title: "Product 3",
-    price: "1034",
-    image: "https://bit.ly/2Z4KKcF",
-  },
-];
+import { Product } from "core/products/types";
+import ProductApi from "core/products/api";
 
-const Home: NextPage = () => {
+interface HomeProps {
+  products: Product[];
+}
+
+const Home: NextPage<HomeProps> = ({ products }) => {
   return (
     <div>
       <Head>
-        <title>Price-Shop</title>
+        <title>PriceShop</title>
         <meta
           name="description"
-          content="Price-Shop, e-commerce app by José Núñez Riveros"
+          content="PriceShop, e-commerce app by José Núñez Riveros"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -41,7 +27,7 @@ const Home: NextPage = () => {
           Highlights
         </Text>
         <SimpleGrid gap="4" minChildWidth="200px">
-          {PRODUCTS.map((product) => (
+          {products?.map((product) => (
             <Link href={`/product/${product.id}`} key={product.id}>
               <a>
                 <Box
@@ -50,7 +36,7 @@ const Home: NextPage = () => {
                   borderRadius="lg"
                   overflow="hidden"
                 >
-                  <Image src={product.image} alt={product.title} />
+                  <Image src={product.images[0]} alt={product.title} />
                   <Box p="6">
                     <Box display="flex" alignItems="baseline">
                       <Badge borderRadius="full" px="2" colorScheme="teal">
@@ -79,5 +65,10 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  const products = await ProductApi.findNewest();
+  return { props: { products } };
+}
 
 export default Home;

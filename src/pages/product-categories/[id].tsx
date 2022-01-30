@@ -3,36 +3,19 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import { Box, Text, Image, Badge, SimpleGrid } from "@chakra-ui/react";
+import { GetServerSideProps } from "next";
 
-const PRODUCTS = [
-  {
-    id: "2",
-    title: "Product 1 Product 1 Product 1 Product 1 Product 1 Product 1 ",
-    price: "150",
-    image: "https://bit.ly/2Z4KKcF",
-  },
-  {
-    id: "3",
-    title: "Product 2",
-    price: "250",
-    image: "https://bit.ly/2Z4KKcF",
-  },
-  {
-    id: "4",
-    title: "Product 3",
-    price: "1034",
-    image: "https://bit.ly/2Z4KKcF",
-  },
-];
+import ProductApi from "core/products/api";
+import { Product } from "core/products/types";
 
-const ProductCategories: NextPage = () => {
+const ProductCategories: NextPage<{ products: Product[] }> = ({ products }) => {
   const router = useRouter();
   const { id } = router.query;
 
   return (
     <div>
       <Head>
-        <title>PriceShop | {id}</title>
+        <title>{id} | PriceShop</title>
         <meta
           name="description"
           content="Price-Shop, e-commerce app by José Núñez Riveros"
@@ -44,7 +27,7 @@ const ProductCategories: NextPage = () => {
           {id}
         </Text>
         <SimpleGrid gap="4" minChildWidth="200px">
-          {PRODUCTS.map((product) => (
+          {products.map((product) => (
             <Link href={`/product/${product.id}`} key={product.id}>
               <a>
                 <Box
@@ -53,7 +36,7 @@ const ProductCategories: NextPage = () => {
                   borderRadius="lg"
                   overflow="hidden"
                 >
-                  <Image src={product.image} alt={product.title} />
+                  <Image src={product.images[0]} alt={product.title} />
                   <Box p="6">
                     <Box display="flex" alignItems="baseline">
                       <Badge borderRadius="full" px="2" colorScheme="teal">
@@ -81,6 +64,12 @@ const ProductCategories: NextPage = () => {
       </Box>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const categoryId = query.id as Product["category"]["id"];
+  const products = await ProductApi.findByCategory(categoryId);
+  return { props: { products } };
 };
 
 export default ProductCategories;
