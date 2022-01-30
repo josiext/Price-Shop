@@ -2,9 +2,9 @@ import { createContext, useState } from "react";
 
 import { Product } from "core/products/types";
 
-interface State {
+export interface State {
   isOpen: boolean;
-  products: Product[];
+  products: Product["id"][];
 }
 
 const defaultValues: State = {

@@ -34,7 +34,7 @@ const PRODUCTS: Product[] = [
 ];
 
 const ProductApi = {
-  find: (id: Product["id"]): Promise<Product | undefined> =>
+  findById: (id: Product["id"]): Promise<Product | undefined> =>
     Promise.resolve(PRODUCTS.find((item) => item.id === id)),
   findByCategory: (categoryId: Product["category"]["id"]): Promise<Product[]> =>
     Promise.resolve(PRODUCTS),
