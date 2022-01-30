@@ -15,6 +15,8 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 
+import { useCart } from "core/products/hooks";
+
 const PRODUCT_CATEGORIES = [
   {
     label: "sports",
@@ -26,8 +28,9 @@ const PRODUCT_CATEGORIES = [
   },
 ];
 
-export default function Navbar({ openCart }: { openCart: () => void }) {
+export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { toggleOpen } = useCart();
 
   return (
     <>
@@ -39,7 +42,7 @@ export default function Navbar({ openCart }: { openCart: () => void }) {
           <a>PriceShop</a>
         </Link>
         <Input placeholder="Search.." />
-        <Button onClick={openCart}>Cart</Button>
+        <Button onClick={toggleOpen}>Cart</Button>
       </Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
