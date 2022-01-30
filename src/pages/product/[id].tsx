@@ -6,7 +6,7 @@ import { Box, Button, Container, Text, useToast } from "@chakra-ui/react";
 
 import { Product as IProduct } from "core/products/types";
 import ProductApi from "core/products/api";
-import { useCart } from "core/products/hooks";
+import { useCart } from "core/cart/hooks";
 
 const Product: NextPage<{ product: IProduct }> = ({ product }) => {
   const toast = useToast();

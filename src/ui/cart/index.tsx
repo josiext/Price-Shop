@@ -9,7 +9,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import { useCart } from "core/products/hooks";
+import { useCart } from "core/cart/hooks";
 
 const Cart = ({ onBuy }: any) => {
   const { isOpen, toggleOpen } = useCart();

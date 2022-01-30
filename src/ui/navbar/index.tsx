@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 
-import { useCart } from "core/products/hooks";
+import { useCart } from "core/cart/hooks";
 
 const PRODUCT_CATEGORIES = [
   {
