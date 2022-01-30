@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
 import Navbar from "ui/navbar";
-import Cart from "ui/cart";
+import Cart from "core/cart/components/CartModal";
 import { CartContextProvider } from "core/cart/context";
 
 function MyApp({ Component, pageProps }: AppProps) {
