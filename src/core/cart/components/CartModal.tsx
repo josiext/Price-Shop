@@ -125,10 +125,10 @@ const Cart = ({ onBuy }: any) => {
             onClick={onBuy}
             isDisabled={!items.length}
           >
-            Comprar
+            Buy
           </Button>
           <Button variant="ghost" onClick={Cart.toggleOpen}>
-            Cerrar
+            Close
           </Button>
         </ModalFooter>
       </ModalContent>
