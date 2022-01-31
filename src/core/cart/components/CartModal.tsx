@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -41,6 +41,18 @@ const Cart = ({ onBuy }: any) => {
 
     setItems(data);
   };
+
+  const totalPrice = useMemo(
+    () =>
+      items.reduce(
+        (acc, item) =>
+          acc +
+          item.price *
+            (Cart.products.find((d) => d.id === item.id)?.amount ?? 1),
+        0
+      ),
+    [items]
+  );
 
   return (
     <Modal isOpen={Cart.isOpen} onClose={Cart.toggleOpen}>
@@ -97,10 +109,22 @@ const Cart = ({ onBuy }: any) => {
           ) : (
             <Text color="gray.400">No products added to cart</Text>
           )}
+
+          <Box d="flex" justifyContent="space-between" mt="7">
+            <Text fontSize="lg" fontWeight="semibold">
+              Total
+            </Text>
+            <Text fontWeight="semibold">{totalPrice}</Text>
+          </Box>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onBuy}>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            onClick={onBuy}
+            isDisabled={!items.length}
+          >
             Comprar
           </Button>
           <Button variant="ghost" onClick={Cart.toggleOpen}>
