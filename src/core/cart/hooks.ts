@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import { CartContext, State } from "./context";
 
 export const useCart = () => {
   const [state, setState] = useContext(CartContext);
+
+  useEffect(() => {
+    localStorage.setItem("cart-items", JSON.stringify(state.products));
+  }, [state.products]);
 
   const toggleOpen = () => {
     setState({ ...state, isOpen: !state.isOpen });

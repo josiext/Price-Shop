@@ -18,10 +18,13 @@ export const CartContext = createContext([defaultValues, () => {}] as [
 ]);
 
 export const CartContextProvider = (props: { children: React.ReactNode }) => {
-  const [state, setState] = useState<State>({
+  const [state, setState] = useState<State>(() => ({
     isOpen: false,
-    products: [],
-  });
+    products:
+      typeof window !== "undefined"
+        ? JSON.parse(localStorage.getItem("cart-items") || "") || []
+        : [],
+  }));
 
   return (
     <CartContext.Provider value={[state, setState]}>
