@@ -51,7 +51,7 @@ const Cart = ({ onBuy }: any) => {
             (Cart.products.find((d) => d.id === item.id)?.amount ?? 1),
         0
       ),
-    [items]
+    [items, Cart.products]
   );
 
   return (
@@ -114,7 +114,7 @@ const Cart = ({ onBuy }: any) => {
             <Text fontSize="lg" fontWeight="semibold">
               Total
             </Text>
-            <Text fontWeight="semibold">{totalPrice}</Text>
+            <Text fontWeight="semibold">${totalPrice}</Text>
           </Box>
         </ModalBody>
 
