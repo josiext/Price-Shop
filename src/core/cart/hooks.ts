@@ -9,15 +9,48 @@ export const useCart = () => {
     setState({ ...state, isOpen: !state.isOpen });
   };
 
-  const addProduct = (productId: State["products"][0]) => {
-    if (state.products.includes(productId)) return;
-    setState({ ...state, products: [productId, ...state.products] });
-  };
-
-  const removeProduct = (productId: State["products"][0]) => {
+  const addProduct = (itemId: State["products"][0]["id"]) => {
+    if (state.products.find((item) => item.id === itemId)) return;
     setState({
       ...state,
-      products: state.products.filter((id) => id !== productId),
+      products: [{ id: itemId, amount: 1 }, ...state.products],
+    });
+  };
+
+  const removeProduct = (id: State["products"][0]["id"]) => {
+    setState({
+      ...state,
+      products: state.products.filter((item) => item.id !== id),
+    });
+  };
+
+  const addAmount = (id: State["products"][0]["id"]) => {
+    const products = state.products.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            amount: item.amount + 1,
+          }
+        : item
+    );
+    setState({
+      ...state,
+      products,
+    });
+  };
+
+  const decreaseAmount = (id: State["products"][0]["id"]) => {
+    const products = state.products.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            amount: item.amount > 1 ? item.amount - 1 : item.amount,
+          }
+        : item
+    );
+    setState({
+      ...state,
+      products,
     });
   };
 
@@ -26,5 +59,7 @@ export const useCart = () => {
     toggleOpen,
     addProduct,
     removeProduct,
+    addAmount,
+    decreaseAmount,
   };
 };

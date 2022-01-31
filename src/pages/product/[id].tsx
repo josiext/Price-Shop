@@ -33,7 +33,7 @@ const Product: NextPage<{ product: IProduct }> = ({ product }) => {
   };
 
   const isProductInCart = useMemo(
-    () => products.includes(product.id),
+    () => products.find((item) => item.id === product.id),
     [product, products]
   );
 

@@ -4,7 +4,7 @@ import { Product } from "core/products/types";
 
 export interface State {
   isOpen: boolean;
-  products: Product["id"][];
+  products: { id: Product["id"]; amount: number }[];
 }
 
 const defaultValues: State = {
