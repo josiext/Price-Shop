@@ -12,8 +12,13 @@ import {
   Input,
   Text,
   VStack,
+  Heading,
+  HStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
+
+import Icon from "ui/icon";
+import { COLORS } from "theme";
 
 const PRODUCT_CATEGORIES = [
   {
@@ -35,15 +40,26 @@ export default function Navbar({ toggleCart }: NavbarProps) {
 
   return (
     <>
-      <Box as="nav" bg="#f8f8f8" d="flex" justifyContent="space-between" p="5">
-        <Button colorScheme="teal" onClick={onOpen}>
-          Menu
+      <Box as="nav" bg="primary" d="flex" justifyContent="space-between" p="5">
+        <HStack>
+          <Button onClick={onOpen} variant="unstyled" p="2">
+            <Icon name="menu" color="#fff" />
+          </Button>
+          <Link href="/">
+            <a>
+              <Heading color="#fff" as="h1">
+                PriceShop
+              </Heading>
+            </a>
+          </Link>
+        </HStack>
+        <Input placeholder="Search.." bg="#fff" maxW="600px" />
+        <Button onClick={toggleCart} p="2" variant="unstyled" d="flex" gap="1">
+          <Icon name="cart" color={COLORS.SECONDARY} width="35px" />
+          <Text color="#fff" h="full" d="flex" flexDir="column-reverse">
+            Cart
+          </Text>
         </Button>
-        <Link href="/">
-          <a>PriceShop</a>
-        </Link>
-        <Input placeholder="Search.." />
-        <Button onClick={toggleCart}>Cart</Button>
       </Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>

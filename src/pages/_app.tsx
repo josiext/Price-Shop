@@ -5,6 +5,7 @@ import { Box, ChakraProvider } from "@chakra-ui/react";
 import Navbar from "ui/navbar";
 import Cart from "core/cart/components/CartModal";
 import { CartContextProvider } from "core/cart/context";
+import { theme } from "theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -14,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <CartContextProvider>
         <Navbar toggleCart={toggleCart} />
         <Box mx="4" mt="4">
