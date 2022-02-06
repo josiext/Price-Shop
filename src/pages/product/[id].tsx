@@ -6,14 +6,15 @@ import { Box, Button, Container, Text, useToast } from "@chakra-ui/react";
 
 import { Product as IProduct } from "core/products/types";
 import ProductApi from "core/products/api";
-import { useCart } from "core/cart/hooks";
+import { useCartContext } from "core/cart/context";
 
 const Product: NextPage<{ product: IProduct }> = ({ product }) => {
   const toast = useToast();
-  const { products, addProduct, removeProduct } = useCart();
+
+  const [Cart, CartActions] = useCartContext();
 
   const handleAddToCart = () => {
-    addProduct(product.id);
+    CartActions.addProduct(product.id);
     toast({
       title: "Added to cart",
       description: "product was added to cart.",
@@ -23,7 +24,7 @@ const Product: NextPage<{ product: IProduct }> = ({ product }) => {
   };
 
   const handleRemoveFromCart = () => {
-    removeProduct(product.id);
+    CartActions.removeProduct(product.id);
     toast({
       title: "Removed from cart",
       description: "product was removed from cart.",
@@ -33,8 +34,8 @@ const Product: NextPage<{ product: IProduct }> = ({ product }) => {
   };
 
   const isProductInCart = useMemo(
-    () => products.find((item) => item.id === product.id),
-    [product, products]
+    () => Cart.products.find((item) => item.id === product.id),
+    [product, Cart.products]
   );
 
   return (

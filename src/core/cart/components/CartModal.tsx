@@ -11,16 +11,25 @@ import {
   VStack,
   Text,
   Box,
+  useToast,
 } from "@chakra-ui/react";
-
-import { useCart } from "core/cart/hooks";
-import { Product } from "core/products/types";
-import ProductApi from "core/products/api";
 import Link from "next/link";
 
-const Cart = ({ onBuy }: any) => {
-  const Cart = useCart();
+import { Product } from "core/products/types";
+import ProductApi from "core/products/api";
+import { useCartContext } from "../context";
+
+export interface CartProps {
+  isOpen: boolean;
+  toggleCart: () => void;
+}
+
+const Cart = ({ isOpen, toggleCart }: CartProps) => {
+  const toast = useToast();
   const [items, setItems] = useState<Product[]>([]);
+  const [isBuying, setIsBuying] = useState<boolean>(false);
+
+  const [Cart, CartActions] = useCartContext();
 
   useEffect(() => {
     getItems();
@@ -42,6 +51,20 @@ const Cart = ({ onBuy }: any) => {
     setItems(data);
   };
 
+  const handleBuy = () => {
+    setIsBuying(true);
+    setTimeout(() => {
+      toast({
+        title: "Successful purchase",
+        status: "success",
+        isClosable: true,
+      });
+      toggleCart();
+      CartActions.removeAllProducts();
+      setIsBuying(false);
+    }, 800);
+  };
+
   const totalPrice = useMemo(
     () =>
       items.reduce(
@@ -55,7 +78,7 @@ const Cart = ({ onBuy }: any) => {
   );
 
   return (
-    <Modal isOpen={Cart.isOpen} onClose={Cart.toggleOpen}>
+    <Modal isOpen={isOpen} onClose={toggleCart}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>My cart</ModalHeader>
@@ -73,7 +96,10 @@ const Cart = ({ onBuy }: any) => {
                   w="full"
                 >
                   <Link href={`/product/${item.id}`}>
-                    <a onClick={Cart.toggleOpen} style={{ width: "100%" }}>
+                    <a
+                      onClick={CartActions.closeCart}
+                      style={{ width: "100%" }}
+                    >
                       <Box
                         d="flex"
                         shadow="sm"
@@ -92,17 +118,23 @@ const Cart = ({ onBuy }: any) => {
                   </Link>
                   <Box flex="1" d="grid" placeContent="center">
                     <Box d="flex">
-                      <Button onClick={() => Cart.decreaseAmount(item.id)}>
+                      <Button
+                        onClick={() => CartActions.decreaseAmount(item.id)}
+                      >
                         -
                       </Button>
                       <Text d="grid" placeContent="center">
                         {Cart.products.find((d) => d.id === item.id)?.amount}
                       </Text>
-                      <Button onClick={() => Cart.addAmount(item.id)}>+</Button>
+                      <Button onClick={() => CartActions.addAmount(item.id)}>
+                        +
+                      </Button>
                     </Box>
                   </Box>
 
-                  <Button onClick={() => Cart.removeProduct(item.id)}>X</Button>
+                  <Button onClick={() => CartActions.removeProduct(item.id)}>
+                    X
+                  </Button>
                 </Box>
               ))}
             </VStack>
@@ -122,12 +154,13 @@ const Cart = ({ onBuy }: any) => {
           <Button
             colorScheme="blue"
             mr={3}
-            onClick={onBuy}
+            onClick={handleBuy}
             isDisabled={!items.length}
+            isLoading={isBuying}
           >
             Buy
           </Button>
-          <Button variant="ghost" onClick={Cart.toggleOpen}>
+          <Button variant="ghost" onClick={toggleCart}>
             Close
           </Button>
         </ModalFooter>
