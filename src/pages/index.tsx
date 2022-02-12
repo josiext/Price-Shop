@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
-import { Box, Image, Badge, SimpleGrid, Heading, Grid } from "@chakra-ui/react";
+import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 
 import { Product } from "core/products/types";
 import ProductApi from "core/products/api";
+import ProductPreview from "core/products/components/ProductPreview";
 
 interface HomeProps {
   products: Product[];
@@ -12,7 +13,7 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = ({ products }) => {
   return (
-    <div>
+    <>
       <Head>
         <title>PriceShop</title>
         <meta
@@ -21,48 +22,31 @@ const Home: NextPage<HomeProps> = ({ products }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Box as="main" mx="250px">
-        <Heading as="h2" my="7" fontWeight="semibold">
-          Highlightss
-        </Heading>
-        <Grid templateColumns="repeat(3,auto)" gap="4" bg="red">
-          {products?.map((product) => (
-            <Link href={`/product/${product.id}`} key={product.id}>
-              <a>
-                <Box
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  shadow="base"
-                >
-                  <Image src={product.images[0]} alt={product.title} />
-                  <Box p="6">
-                    <Box display="flex" alignItems="baseline">
-                      <Badge borderRadius="full" px="2" colorScheme="teal">
-                        New
-                      </Badge>
-                    </Box>
-
-                    <Box
-                      mt="1"
-                      fontWeight="semibold"
-                      as="h4"
-                      lineHeight="tight"
-                      isTruncated
-                    >
-                      {product.title}
-                    </Box>
-
-                    <Box>{product.price} usd</Box>
-                  </Box>
-                </Box>
-              </a>
-            </Link>
-          ))}
-        </Grid>
+      <Box minW="100%" overflow="auto" d="flex" justifyContent="center">
+        <Box
+          as="main"
+          w="full"
+          maxW="1600px"
+          overflow="auto"
+          d="flex"
+          flexDir="column"
+          justifyContent="center"
+        >
+          <Heading as="h2" my="7" fontWeight="semibold">
+            Highlights
+          </Heading>
+          <SimpleGrid minChildWidth="240px" spacing="20px">
+            {products?.map((product) => (
+              <Link href={`/product/${product.id}`} key={product.id}>
+                <a>
+                  <ProductPreview data={product} />
+                </a>
+              </Link>
+            ))}
+          </SimpleGrid>
+        </Box>
       </Box>
-    </div>
+    </>
   );
 };
 

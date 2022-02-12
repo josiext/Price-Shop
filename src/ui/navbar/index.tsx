@@ -65,22 +65,26 @@ export default function Navbar({ toggleCart }: NavbarProps) {
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Categories</DrawerHeader>
+          <DrawerCloseButton color="#fff" />
+          <DrawerHeader bg={COLORS.PRIMARY}>
+            <Heading as="h2" fontWeight="semibold" color="#fff">
+              Categories
+            </Heading>
+          </DrawerHeader>
 
           <DrawerBody>
             <VStack alignItems="left">
               {PRODUCT_CATEGORIES.map((item) => (
                 <Link key={item.id} href={`/product-categories/${item.id}`}>
                   <a onClick={onClose}>
-                    <Text fontSize="lg">{item.label}</Text>
+                    <Text fontSize="2xl" fontWeight="semibold">
+                      {item.label}
+                    </Text>
                   </a>
                 </Link>
               ))}
             </VStack>
           </DrawerBody>
-
-          <DrawerFooter>PriceShop</DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

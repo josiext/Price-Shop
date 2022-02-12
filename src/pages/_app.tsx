@@ -15,16 +15,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ChakraProvider theme={theme}>
-      <CartContextProvider>
+    <CartContextProvider>
+      <ChakraProvider theme={theme}>
         <Navbar toggleCart={toggleCart} />
         <Box mx="4" mt="4">
           <Component {...pageProps} />
         </Box>
 
         <Cart isOpen={isCartOpen} toggleCart={toggleCart} />
-      </CartContextProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+    </CartContextProvider>
   );
 }
 
