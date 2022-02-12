@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Box, Text, Image, Badge, SimpleGrid } from "@chakra-ui/react";
+import { Box, Image, Badge, SimpleGrid, Heading, Grid } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -22,19 +22,19 @@ const Home: NextPage<HomeProps> = ({ products }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Box as="main">
-        <Text as="h1" fontSize="3xl" my="4" fontWeight="semibold">
+      <Box as="main" mx="250px">
+        <Heading as="h2" my="7" fontWeight="semibold">
           Highlights
-        </Text>
-        <SimpleGrid gap="4" minChildWidth="200px">
+        </Heading>
+        <Grid templateColumns="repeat(3,auto)" gap="4" bg="red">
           {products?.map((product) => (
             <Link href={`/product/${product.id}`} key={product.id}>
               <a>
                 <Box
-                  maxW="sm"
                   borderWidth="1px"
                   borderRadius="lg"
                   overflow="hidden"
+                  shadow="base"
                 >
                   <Image src={product.images[0]} alt={product.title} />
                   <Box p="6">
@@ -60,7 +60,7 @@ const Home: NextPage<HomeProps> = ({ products }) => {
               </a>
             </Link>
           ))}
-        </SimpleGrid>
+        </Grid>
       </Box>
     </div>
   );

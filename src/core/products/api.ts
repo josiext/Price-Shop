@@ -31,6 +31,86 @@ const PRODUCTS: Product[] = [
       label: "sport",
     },
   },
+  {
+    id: "4",
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
+  {
+    id: String(Math.random()),
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
+  {
+    id: String(Math.random()),
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
+  {
+    id: String(Math.random()),
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
+  {
+    id: String(Math.random()),
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
+  {
+    id: String(Math.random()),
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
+  {
+    id: String(Math.random()),
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
+  {
+    id: String(Math.random()),
+    title: "Product 3",
+    price: 1034,
+    images: ["https://bit.ly/2Z4KKcF"],
+    category: {
+      id: "1234",
+      label: "sport",
+    },
+  },
 ];
 
 const ProductApi = {
