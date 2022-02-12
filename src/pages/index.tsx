@@ -24,7 +24,7 @@ const Home: NextPage<HomeProps> = ({ products }) => {
 
       <Box as="main" mx="250px">
         <Heading as="h2" my="7" fontWeight="semibold">
-          Highlights
+          Highlightss
         </Heading>
         <Grid templateColumns="repeat(3,auto)" gap="4" bg="red">
           {products?.map((product) => (
