@@ -15,9 +15,9 @@ import {
 } from "@chakra-ui/react";
 
 import { Product } from "core/products/types";
-import ProductApi from "core/products/api";
 import { useCartContext } from "../context";
 import ProductPreviewCart from "core/products/components/ProductCartPreview";
+import { useCart } from "../hooks";
 
 export interface CartProps {
   isOpen: boolean;
@@ -43,30 +43,10 @@ const getItemAmount = (
 
 const Cart = ({ isOpen, toggleCart }: CartProps) => {
   const toast = useToast();
-  const [items, setItems] = useState<Product[]>([]);
   const [isBuying, setIsBuying] = useState<boolean>(false);
 
   const [Cart, CartActions] = useCartContext();
-
-  useEffect(() => {
-    getItems();
-  }, [Cart.products]);
-
-  const getItems = async () => {
-    const promises = Cart.products.map((product) =>
-      ProductApi.findById(product.id)
-    );
-    const responses = await Promise.allSettled(promises);
-
-    const data: Product[] = [];
-    const errors = [];
-    responses.forEach((res) => {
-      if (res.status === "fulfilled" && res.value) data.push(res.value);
-      else errors.push(res);
-    });
-
-    setItems(data);
-  };
+  const { products } = useCart(Cart.products.map((item) => item.id));
 
   const handleBuy = () => {
     setIsBuying(true);
@@ -82,11 +62,6 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
     }, 800);
   };
 
-  const totalPrice = useMemo(
-    () => getTotalItemPrice(items, Cart.products),
-    [items, Cart.products]
-  );
-
   return (
     <Modal isOpen={isOpen} onClose={toggleCart}>
       <ModalOverlay />
@@ -94,9 +69,9 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
         <ModalHeader>My cart</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {items?.length ? (
+          {products?.length ? (
             <VStack>
-              {items.map((item) => (
+              {products.map((item) => (
                 <ProductPreviewCart
                   key={item.id}
                   data={item}
@@ -116,7 +91,7 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
             <Text fontSize="lg" fontWeight="semibold">
               Total
             </Text>
-            <Text fontWeight="semibold">${totalPrice}</Text>
+            <Text fontWeight="semibold">${"no definido"}</Text>
           </Box>
         </ModalBody>
 
@@ -125,7 +100,7 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
             colorScheme="blue"
             mr={3}
             onClick={handleBuy}
-            isDisabled={!items.length}
+            isDisabled={!products.length}
             isLoading={isBuying}
           >
             Buy

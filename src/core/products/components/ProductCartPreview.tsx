@@ -1,10 +1,9 @@
 import { Button, Text, Box } from "@chakra-ui/react";
+import { product } from "@prisma/client";
 import Link from "next/link";
 
-import { Product } from "../types";
-
 export interface ProductPreviewCartProps {
-  data: Product;
+  data: product;
   amount: number;
   onClick: () => void;
   onDecreaseAmount: () => void;
@@ -33,7 +32,7 @@ export default function ProductPreviewCart({
         <a onClick={onClick} style={{ width: "100%" }}>
           <Box d="flex" shadow="sm" borderWidth="1px" borderRadius="lg" p="3">
             <Text flex="3" fontWeight="semibold">
-              {data.title}
+              {data.name}
             </Text>
             <Text flex="1" d="grid" placeContent="center">
               ${data.price}
