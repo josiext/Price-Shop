@@ -1,11 +1,9 @@
-import { GetServerSideProps } from "next";
 import {
   Box,
   Button,
   useDisclosure,
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,

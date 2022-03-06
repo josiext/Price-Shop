@@ -1,21 +1,20 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import { Box, Text, Image, Badge, SimpleGrid } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
+import { product, productCategory } from "@prisma/client";
 
-import ProductApi from "core/products/api";
-import { Product } from "core/products/types";
+import { prisma } from "database";
 
-const ProductCategories: NextPage<{ products: Product[] }> = ({ products }) => {
-  const router = useRouter();
-  const { id } = router.query;
-
+const ProductCategories: NextPage<{
+  products: product[];
+  category: productCategory;
+}> = ({ products, category }) => {
   return (
     <div>
       <Head>
-        <title>{id} | PriceShop</title>
+        <title>{category.label} | PriceShop</title>
         <meta
           name="description"
           content="Price-Shop, e-commerce app by José Núñez Riveros"
@@ -24,7 +23,7 @@ const ProductCategories: NextPage<{ products: Product[] }> = ({ products }) => {
 
       <Box as="main">
         <Text as="h1" fontSize="3xl" my="4" fontWeight="semibold">
-          {id}
+          {category.label}
         </Text>
         <SimpleGrid gap="4" minChildWidth="200px">
           {products.map((product) => (
@@ -36,7 +35,7 @@ const ProductCategories: NextPage<{ products: Product[] }> = ({ products }) => {
                   borderRadius="lg"
                   overflow="hidden"
                 >
-                  <Image src={product.images[0]} alt={product.title} />
+                  <Image src={product.images[0]} alt={product.name} />
                   <Box p="6">
                     <Box display="flex" alignItems="baseline">
                       <Badge borderRadius="full" px="2" colorScheme="teal">
@@ -51,7 +50,7 @@ const ProductCategories: NextPage<{ products: Product[] }> = ({ products }) => {
                       lineHeight="tight"
                       isTruncated
                     >
-                      {product.title}
+                      {product.name}
                     </Box>
 
                     <Box>{product.price} usd</Box>
@@ -67,9 +66,17 @@ const ProductCategories: NextPage<{ products: Product[] }> = ({ products }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const categoryId = query.id as Product["category"]["id"];
-  const products = await ProductApi.findByCategory(categoryId);
-  return { props: { products } };
+  const categoryId = query.id as productCategory["id"];
+
+  const p1 = prisma.product.findMany({
+    where: { idCategory: categoryId },
+  });
+  const p2 = prisma.productCategory.findUnique({
+    where: { id: categoryId },
+  });
+  const [products, category] = await Promise.all([p1, p2]);
+
+  return { props: { products, category } };
 };
 
 export default ProductCategories;
