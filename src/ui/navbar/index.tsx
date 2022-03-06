@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import {
   Box,
   Button,
@@ -16,26 +17,17 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { productCategory } from "@prisma/client";
 
 import Icon from "ui/icon";
 import { COLORS } from "theme";
 
-const PRODUCT_CATEGORIES = [
-  {
-    label: "sports",
-    id: "123",
-  },
-  {
-    label: "room",
-    id: "45439",
-  },
-];
-
 export interface NavbarProps {
   toggleCart: () => void;
+  categories: productCategory[];
 }
 
-export default function Navbar({ toggleCart }: NavbarProps) {
+export default function Navbar({ toggleCart, categories }: NavbarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -74,7 +66,7 @@ export default function Navbar({ toggleCart }: NavbarProps) {
 
           <DrawerBody>
             <VStack alignItems="left">
-              {PRODUCT_CATEGORIES.map((item) => (
+              {categories.map((item) => (
                 <Link key={item.id} href={`/product-categories/${item.id}`}>
                   <a onClick={onClose}>
                     <Text fontSize="2xl" fontWeight="semibold">

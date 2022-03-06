@@ -12,8 +12,6 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ products }) => {
-  console.log("products", products);
-
   return (
     <>
       <Head>
