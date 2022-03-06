@@ -9,12 +9,12 @@ import { prisma } from "database";
 
 const ProductCategories: NextPage<{
   products: product[];
-  category: productCategory;
-}> = ({ products, category }) => {
+  categoryLabel: productCategory["label"];
+}> = ({ products, categoryLabel }) => {
   return (
     <div>
       <Head>
-        <title>{category.label} | PriceShop</title>
+        <title>{categoryLabel} | PriceShop</title>
         <meta
           name="description"
           content="Price-Shop, e-commerce app by José Núñez Riveros"
@@ -23,7 +23,7 @@ const ProductCategories: NextPage<{
 
       <Box as="main">
         <Text as="h1" fontSize="3xl" my="4" fontWeight="semibold">
-          {category.label}
+          {categoryLabel}
         </Text>
         <SimpleGrid gap="4" minChildWidth="200px">
           {products.map((product) => (
@@ -74,9 +74,17 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const p2 = prisma.productCategory.findUnique({
     where: { id: categoryId },
   });
-  const [products, category] = await Promise.all([p1, p2]);
+  const responses = await Promise.allSettled([p1, p2]);
 
-  return { props: { products, category } };
+  const products =
+    responses[0].status === "fulfilled" ? responses[0].value : [];
+
+  const categoryLabel =
+    responses[1].status === "fulfilled" && responses[1]?.value?.label
+      ? responses[1].value.label
+      : "Unknown product category";
+
+  return { props: { products, categoryLabel } };
 };
 
 export default ProductCategories;
