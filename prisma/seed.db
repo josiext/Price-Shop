@@ -1,0 +1,13 @@
+INSERT INTO public."productCategory"(
+	id, label)
+	VALUES ('a4a76955-5e5c-44e6-aed8-3a4785024090', 'Home');
+INSERT INTO public."productCategory"(
+	id, label)
+	VALUES ('ce44aeef-0d37-4208-9cbb-734123ea072b', 'Sport');
+
+INSERT INTO public.product(
+	id, name, description, images, price, "idCategory")
+	VALUES 
+        ('4b81cec9-0ca4-4543-9d35-b02ef7c2028c', 'Bed', 'For bed people', '{"https://www.ikea.com/ca/en/images/products/hauga-upholstered-bed-frame-vissle-gray__0789232_pe764315_s5.jpg?f=s","https://www.ikea.com/ca/en/images/products/hauga-upholstered-bed-frame-vissle-gray__0789234_pe764316_s5.jpg?f=xxxs","https://www.ikea.com/ca/en/images/products/hauga-upholstered-bed-frame-vissle-gray__0789235_pe764317_s5.jpg?f=l"}', 12000, 'a4a76955-5e5c-44e6-aed8-3a4785024090'),
+        ('4c231136-cf15-4552-bddf-5fc675f0a3c6', 'Gym machine', 'For sport people',  '{"https://m.media-amazon.com/images/I/713yAX7JHvL._AC_SX425_.jpg"}', 500, 'ce44aeef-0d37-4208-9cbb-734123ea072b'),
+        ('d3a994dc-f714-431b-9253-5b8ccce3a648', 'Mancuernas', 'For sport people',  '{}', 222, 'ce44aeef-0d37-4208-9cbb-734123ea072b');

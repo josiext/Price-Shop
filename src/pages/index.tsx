@@ -3,8 +3,8 @@ import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 
+import { prisma } from "database";
 import { Product } from "core/products/types";
-import ProductApi from "core/products/api";
 import ProductPreview from "core/products/components/ProductPreview";
 
 interface HomeProps {
@@ -12,6 +12,8 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ products }) => {
+  console.log("products", products);
+
   return (
     <>
       <Head>
@@ -50,9 +52,9 @@ const Home: NextPage<HomeProps> = ({ products }) => {
   );
 };
 
-export async function getServerSideProps() {
-  const products = await ProductApi.findNewest();
+export const getServerSideProps = async () => {
+  const products = await prisma.product.findMany();
   return { props: { products } };
-}
+};
 
 export default Home;

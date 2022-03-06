@@ -8,9 +8,17 @@ datasource db {
 }
 
 model product {
-  id          String   @id(map: "products_pkey") @db.Uuid
-  name        String   @db.VarChar(50)
-  description String?  @db.VarChar(500)
-  images      String[] @db.VarChar(100000)
-  price       Int
+  id              String          @id(map: "products_pkey") @db.Uuid
+  name            String          @db.VarChar(50)
+  description     String?         @db.VarChar(500)
+  images          String[]        @db.VarChar(100000)
+  price           Int
+  idCategory      String          @db.Uuid
+  productCategory productCategory @relation(fields: [idCategory], references: [id], onDelete: SetNull, onUpdate: SetNull, map: "productCategory")
+}
+
+model productCategory {
+  id      String    @id @db.Uuid
+  label   String    @db.VarChar(50)
+  product product[]
 }

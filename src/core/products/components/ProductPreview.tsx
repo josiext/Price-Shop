@@ -20,10 +20,11 @@ export default function ProductPreview({ data }: ProductPreviewProps) {
     >
       <Box flex="2" position="relative">
         <Image
-          src={data.images[0]}
+          src={data.images[0] || "/static/images/no-image.svg"}
           alt={data.title}
-          objectFit="cover"
+          objectFit="contain"
           layout="fill"
+          priority={true}
         />
       </Box>
       <Box p="6">

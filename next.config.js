@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["bit.ly"],
+    domains: ["m.media-amazon.com", "www.ikea.com", "localhost"],
   },
 };
 

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Box, Button, Container, Text } from "@chakra-ui/react";
 
-import { Product } from "../types";
+import { product } from "@prisma/client";
 
 interface ProductViewProps {
-  data: Product;
+  data: product;
   isInCart: boolean;
   onAddToCart: () => void;
   onRemoveFromCart: () => void;
@@ -24,13 +24,13 @@ export default function ProductView({
 
       <Image
         src={data.images[0]}
-        alt={data.title}
+        alt={data.name}
         width="400px"
         height="400px"
         objectFit="contain"
       />
       <Text fontSize="2xl" fontWeight="semibold">
-        {data.title}
+        {data.name}
       </Text>
       <Container m="0" p="0" mt="2">
         {data.description}
