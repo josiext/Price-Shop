@@ -42,11 +42,16 @@ export default function ProductView({
       </Text>
 
       {isInCart ? (
-        <Button mt="4" onClick={onRemoveFromCart}>
+        <Button
+          mt="4"
+          bg="red.500"
+          color="whiteAlpha.900"
+          onClick={onRemoveFromCart}
+        >
           Remove from cart
         </Button>
       ) : (
-        <Button mt="4" onClick={onAddToCart}>
+        <Button mt="4" bg="secondary" onClick={onAddToCart}>
           Add to cart
         </Button>
       )}

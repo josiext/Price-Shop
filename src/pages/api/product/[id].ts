@@ -7,14 +7,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Product | null>
 ) {
-  if (req.method !== "GET" || typeof req.query.id !== "string")
-    return res.status(404);
+  try {
+    if (req.method !== "GET" || typeof req.query.id !== "string")
+      return res.status(404);
+    const product = await prisma.product.findUnique({
+      where: {
+        id: req.query.id,
+      },
+    });
 
-  const product = await prisma.product.findUnique({
-    where: {
-      id: req.query.id,
-    },
-  });
-
-  return res.status(200).json(product);
+    return res.status(200).json(product);
+  } catch (e) {
+    console.error(e);
+    return res.status(500);
+  }
 }

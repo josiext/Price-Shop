@@ -21,8 +21,6 @@ export const useCart = (productIds: Product["id"][]) => {
   }, [productIds, prevProducts]);
 
   const load = async () => {
-    console.log("ejecuta aquí adentro");
-
     const requests = productIds.map(fetcher);
     const responses = await Promise.allSettled(requests);
     const data: Product[] = [];
