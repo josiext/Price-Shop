@@ -1,5 +1,6 @@
 import { Box, Badge } from "@chakra-ui/react";
 import Image from "next/image";
+import { DEFAULT_PROUDUCT_IMAGE } from "utils/images";
 
 import { Product } from "../types";
 
@@ -20,7 +21,7 @@ export default function ProductPreview({ data }: ProductPreviewProps) {
     >
       <Box flex="2" position="relative">
         <Image
-          src={data.images[0] || "/static/images/no-image.svg"}
+          src={data.images[0] || DEFAULT_PROUDUCT_IMAGE}
           alt={data.title}
           objectFit="contain"
           layout="fill"
