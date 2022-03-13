@@ -1,7 +1,7 @@
 import { Box, Badge } from "@chakra-ui/react";
 import Image from "next/image";
-import { DEFAULT_PROUDUCT_IMAGE } from "utils/images";
 
+import { DEFAULT_PROUDUCT_IMAGE } from "utils/images";
 import { Product } from "../types";
 
 interface ProductPreviewProps {
