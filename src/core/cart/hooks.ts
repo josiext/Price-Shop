@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { product } from "@prisma/client";
 
-const fetcher = async (id: product["id"]): Promise<product> => {
-  const res = await fetch(`/api/product/${id}`);
+import { Product } from "core/products/types";
+
+const fetcher = async (id: Product["id"]): Promise<Product> => {
+  const res = await fetch(`/api/Product/${id}`);
   if (!res.ok) throw new Error();
   return res.json();
 };
 
-export const useCart = (productIds: product["id"][]) => {
-  const [products, setProducts] = useState<product[]>([]);
-  const [prevProducts, setPrevProducts] = useState<product["id"][]>([]);
+export const useCart = (productIds: Product["id"][]) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [prevProducts, setPrevProducts] = useState<Product["id"][]>([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export const useCart = (productIds: product["id"][]) => {
 
     const requests = productIds.map(fetcher);
     const responses = await Promise.allSettled(requests);
-    const data: product[] = [];
+    const data: Product[] = [];
     responses.forEach(
       (item) =>
         item.status === "fulfilled" && item.value && data.push(item.value)

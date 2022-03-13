@@ -2,14 +2,14 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useMemo } from "react";
 import Head from "next/head";
 import { Box, useToast } from "@chakra-ui/react";
-import { product } from "@prisma/client";
 
 import { prisma } from "database";
 import { useCartContext } from "core/cart/context";
 import ProductView from "core/products/components/ProductView";
+import { Product as IProduct } from "core/products/types";
 
 export interface ProductProps {
-  product: product;
+  product: IProduct;
 }
 
 const Product: NextPage<ProductProps> = ({ product }) => {
@@ -64,7 +64,7 @@ const Product: NextPage<ProductProps> = ({ product }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const productId = query.id as product["id"];
+  const productId = query.id as IProduct["id"];
   const product = await prisma.product.findUnique({
     where: {
       id: productId,

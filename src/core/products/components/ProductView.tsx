@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { Box, Button, Container, Text } from "@chakra-ui/react";
 
-import { product } from "@prisma/client";
 import { DEFAULT_PROUDUCT_IMAGE } from "utils/images";
+import { Product } from "../types";
 
-interface ProductViewProps {
-  data: product;
+export interface ProductViewProps {
+  data: Product;
   isInCart: boolean;
   onAddToCart: () => void;
   onRemoveFromCart: () => void;

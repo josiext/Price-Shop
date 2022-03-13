@@ -5,7 +5,7 @@ import { DEFAULT_PROUDUCT_IMAGE } from "utils/images";
 import { Product } from "../types";
 
 interface ProductPreviewProps {
-  data: Pick<Product, "title" | "images" | "price">;
+  data: Pick<Product, "name" | "images" | "price">;
 }
 
 export default function ProductPreview({ data }: ProductPreviewProps) {
@@ -22,7 +22,7 @@ export default function ProductPreview({ data }: ProductPreviewProps) {
       <Box flex="2" position="relative">
         <Image
           src={data.images[0] || DEFAULT_PROUDUCT_IMAGE}
-          alt={data.title}
+          alt={data.name}
           objectFit="contain"
           layout="fill"
           priority={true}
@@ -42,7 +42,7 @@ export default function ProductPreview({ data }: ProductPreviewProps) {
           lineHeight="tight"
           isTruncated
         >
-          {data.title}
+          {data.name}
         </Box>
 
         <Box>{data.price} usd</Box>
