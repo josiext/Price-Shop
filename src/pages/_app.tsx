@@ -1,10 +1,9 @@
 import type { AppProps } from "next/app";
-import { useState } from "react";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
 import Navbar from "ui/navbar";
 import Cart from "core/cart/components/CartModal";
-import { CartContextProvider, useCartContext } from "core/cart/context";
+import { CartContextProvider } from "core/cart/context";
 import { theme } from "theme";
 import { useProductCategories } from "core/productCategories/hooks";
 
