@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -13,21 +14,62 @@ import {
   VStack,
   Heading,
   HStack,
+  Flex,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { productCategory } from "@prisma/client";
+import { product, productCategory } from "@prisma/client";
 
 import Icon from "ui/icon";
 import { COLORS } from "theme";
 import { useCartContext } from "core/cart/context";
+import { Product } from "core/products/types";
 
 export interface NavbarProps {
   categories: productCategory[];
 }
 
+const fetcher = async (search: string): Promise<Product[]> => {
+  const res = await fetch(`/api/search-product?search=${search}`);
+  if (!res.ok) return [];
+  return res.json() as Promise<Product[]>;
+};
+
 export default function Navbar({ categories }: NavbarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [_, CartActions] = useCartContext();
+  const [searchProduct, setSearchProduct] = useState<string>("");
+  const [products, setProducts] = useState<product[] | []>([]);
+  const [showProductList, setShowProductList] = useState(false);
+  const productListEl = useRef(null);
+  const inputSearchEl = useRef(null);
+
+  const [prev, setPrev] = useState<any>(null);
+
+  useEffect(() => {
+    window.addEventListener("mousedown", handleClose);
+
+    return () => window.removeEventListener("mousedown", handleClose);
+  }, []);
+
+  useEffect(() => {
+    if (prev) clearTimeout(prev);
+    if (!searchProduct && showProductList === true) setShowProductList(false);
+    else setShowProductList(true);
+
+    const x = setTimeout(() => {
+      fetcher(searchProduct).then(setProducts);
+    }, 600);
+    setPrev(x);
+  }, [searchProduct]);
+
+  const handleClose = (e: any) => {
+    if (
+      !productListEl?.current?.isSameNode(e.target) &&
+      !inputSearchEl?.current?.isSameNode(e.target)
+    ) {
+      setShowProductList(false);
+    }
+  };
 
   return (
     <>
@@ -44,7 +86,40 @@ export default function Navbar({ categories }: NavbarProps) {
             </a>
           </Link>
         </HStack>
-        <Input placeholder="Search.." bg="#fff" maxW="600px" />
+        <Flex position="relative" flexDir="column" w="full">
+          <Input
+            ref={inputSearchEl}
+            placeholder="Search.."
+            bg="#fff"
+            maxW="full"
+            onChange={(e) => setSearchProduct(e.target.value)}
+            value={searchProduct}
+            onClick={() => searchProduct && setShowProductList(true)}
+          />
+          {showProductList && (
+            <Box
+              ref={productListEl}
+              position="absolute"
+              borderWidth="1px"
+              top="41px"
+              width="full"
+              bg="white"
+              p="4"
+              borderRadius="md"
+            >
+              {products && products?.length > 0 ? (
+                products.map((product) => (
+                  <Box key={product.id}>{product.name}</Box>
+                ))
+              ) : (
+                <Text color="gray.400" textAlign="center">
+                  No products to show
+                </Text>
+              )}
+            </Box>
+          )}
+        </Flex>
+
         <Button
           onClick={CartActions.toggleCart}
           p="2"
