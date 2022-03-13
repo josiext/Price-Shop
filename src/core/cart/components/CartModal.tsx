@@ -56,8 +56,6 @@ const Cart = () => {
     return total;
   };
 
-  console.log(Cart.isOpen);
-
   return (
     <Modal isOpen={Cart.isOpen} onClose={CartActions.closeCart}>
       <ModalOverlay />
