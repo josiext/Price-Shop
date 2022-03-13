@@ -8,7 +8,11 @@ import { prisma } from "database";
 import { useCartContext } from "core/cart/context";
 import ProductView from "core/products/components/ProductView";
 
-const Product: NextPage<{ product: product }> = ({ product }) => {
+export interface ProductProps {
+  product: product;
+}
+
+const Product: NextPage<ProductProps> = ({ product }) => {
   const toast = useToast();
 
   const [Cart, CartActions] = useCartContext();
