@@ -17,8 +17,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     setIsCartOpen((prev) => !prev);
   };
 
-  const loadProductCategories = () => {};
-
   return (
     <CartContextProvider>
       <ChakraProvider theme={theme}>
