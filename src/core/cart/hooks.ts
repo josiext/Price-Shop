@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Product } from "core/products/types";
 
 const fetcher = async (id: Product["id"]): Promise<Product> => {
-  const res = await fetch(`/api/Product/${id}`);
+  const res = await fetch(`/api/product/${id}`);
   if (!res.ok) throw new Error();
   return res.json();
 };
