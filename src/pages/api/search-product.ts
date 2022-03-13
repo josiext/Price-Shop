@@ -15,14 +15,12 @@ export default async function handler(
     if (typeof textToSearch !== "string")
       return res.status(400).send({ message: "Bad query" });
 
-    const product = await prisma.product.findMany({
-      where: {
-        name: {
-          contains: textToSearch,
-        },
-      },
-    });
-    return res.status(200).json(product);
+    const product2 = await prisma.$queryRaw<Product[]>`
+      SELECT * FROM product
+      WHERE name iLIKE  '%' || ${textToSearch} || '%'; 
+    `;
+
+    return res.status(200).json(product2);
   } catch (e: any) {
     console.error(e);
     return res.status(500).send({ message: e?.message || "Unknown error" });
