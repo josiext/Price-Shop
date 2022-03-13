@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -40,8 +40,8 @@ export default function Navbar({ categories }: NavbarProps) {
   const [searchProduct, setSearchProduct] = useState<string>("");
   const [products, setProducts] = useState<product[] | []>([]);
   const [showProductList, setShowProductList] = useState(false);
-  const productListEl = useRef(null);
-  const inputSearchEl = useRef(null);
+  const productListEl = useRef<HTMLDivElement | null>(null);
+  const inputSearchEl = useRef<HTMLInputElement | null>(null);
 
   const [prev, setPrev] = useState<any>(null);
 
@@ -52,6 +52,8 @@ export default function Navbar({ categories }: NavbarProps) {
   }, []);
 
   useEffect(() => {
+    // TODO mover a custom hook
+
     if (prev) clearTimeout(prev);
     if (!searchProduct && showProductList === true) setShowProductList(false);
     else setShowProductList(true);
