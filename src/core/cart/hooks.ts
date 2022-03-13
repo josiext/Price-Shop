@@ -1,20 +1,27 @@
-import { product } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { product } from "@prisma/client";
+
+const fetcher = async (id: product["id"]): Promise<product> => {
+  const res = await fetch(`/api/product/${id}`);
+  if (!res.ok) throw new Error();
+  return res.json();
+};
 
 export const useCart = (productIds: product["id"][]) => {
   const [products, setProducts] = useState<product[]>([]);
+  const [prevProducts, setPrevProducts] = useState<product["id"][]>([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    load();
-  }, []);
+    if (productIds.toString() !== prevProducts.toString()) {
+      load();
+      setPrevProducts(productIds);
+    }
+  }, [productIds, prevProducts]);
 
   const load = async () => {
-    const fetcher = async (id: product["id"]): Promise<product> => {
-      const res = await fetch(`/api/product/${id}`);
-      if (!res.ok) throw new Error();
-      return res.json();
-    };
+    console.log("ejecuta aquí adentro");
+
     const requests = productIds.map(fetcher);
     const responses = await Promise.allSettled(requests);
     const data: product[] = [];

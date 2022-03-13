@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -24,16 +24,6 @@ export interface CartProps {
   toggleCart: () => void;
 }
 
-const getTotalItemPrice = (
-  items: Product[],
-  itemAmount: { id: Product["id"]; amount: number }[]
-) => {
-  return items.reduce(
-    (acc, item) => acc + item.price * getItemAmount(item.id, itemAmount),
-    0
-  );
-};
-
 const getItemAmount = (
   id: Product["id"],
   list: { id: Product["id"]; amount: number }[]
@@ -44,7 +34,6 @@ const getItemAmount = (
 const Cart = ({ isOpen, toggleCart }: CartProps) => {
   const toast = useToast();
   const [isBuying, setIsBuying] = useState<boolean>(false);
-
   const [Cart, CartActions] = useCartContext();
   const { products } = useCart(Cart.products.map((item) => item.id));
 
@@ -60,6 +49,16 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
       CartActions.removeAllProducts();
       setIsBuying(false);
     }, 800);
+  };
+
+  const getTotal = () => {
+    const format = products.map(
+      (item) =>
+        item.price *
+        (Cart.products.find((product) => product.id === item.id)?.amount ?? 1)
+    );
+    const total = format.reduce((acc, item) => item + acc, 0);
+    return total;
   };
 
   return (
@@ -91,7 +90,7 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
             <Text fontSize="lg" fontWeight="semibold">
               Total
             </Text>
-            <Text fontWeight="semibold">${"no definido"}</Text>
+            <Text fontWeight="semibold">${getTotal()}</Text>
           </Box>
         </ModalBody>
 
