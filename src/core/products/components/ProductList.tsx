@@ -5,17 +5,17 @@ import Link from "next/link";
 import { Product } from "core/products/types";
 import ProductPreview from "core/products/components/ProductPreview";
 
-interface ProductListProps {
+export interface ProductListProps {
   products: Product[];
 }
 
 const ProductList: NextPage<ProductListProps> = ({ products }) => {
   return (
-    <SimpleGrid minChildWidth="240px" spacing="20px">
+    <SimpleGrid columns={[1, 2, 3, 4]} spacing={"10px"}>
       {products?.map((product) => (
         <Link href={`/product/${product.id}`} key={product.id}>
           <a>
-            <ProductPreview data={product} />
+            <ProductPreview data={product} maxWidth="350px" />
           </a>
         </Link>
       ))}

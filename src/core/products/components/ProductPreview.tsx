@@ -1,14 +1,14 @@
-import { Box, Badge } from "@chakra-ui/react";
+import { Box, Badge, BoxProps } from "@chakra-ui/react";
 import Image from "next/image";
 
 import { DEFAULT_PROUDUCT_IMAGE } from "utils/images";
 import { Product } from "../types";
 
-interface ProductPreviewProps {
+interface ProductPreviewProps extends BoxProps {
   data: Pick<Product, "name" | "images" | "price">;
 }
 
-export default function ProductPreview({ data }: ProductPreviewProps) {
+export default function ProductPreview({ data, ...rest }: ProductPreviewProps) {
   return (
     <Box
       height="350px"
@@ -18,6 +18,7 @@ export default function ProductPreview({ data }: ProductPreviewProps) {
       shadow="sm"
       d="flex"
       flexDir="column"
+      {...rest}
     >
       <Box flex="2" position="relative">
         <Image
