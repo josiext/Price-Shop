@@ -19,11 +19,6 @@ import { useCartContext } from "../context";
 import ProductPreviewCart from "core/products/components/ProductCartPreview";
 import { useCart } from "../hooks";
 
-export interface CartProps {
-  isOpen: boolean;
-  toggleCart: () => void;
-}
-
 const getItemAmount = (
   id: Product["id"],
   list: { id: Product["id"]; amount: number }[]
@@ -31,7 +26,7 @@ const getItemAmount = (
   return list.find((d) => d.id === id)?.amount ?? 0;
 };
 
-const Cart = ({ isOpen, toggleCart }: CartProps) => {
+const Cart = () => {
   const toast = useToast();
   const [isBuying, setIsBuying] = useState<boolean>(false);
   const [Cart, CartActions] = useCartContext();
@@ -45,7 +40,7 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
         status: "success",
         isClosable: true,
       });
-      toggleCart();
+      CartActions.toggleCart();
       CartActions.removeAllProducts();
       setIsBuying(false);
     }, 800);
@@ -61,8 +56,10 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
     return total;
   };
 
+  console.log(Cart.isOpen);
+
   return (
-    <Modal isOpen={isOpen} onClose={toggleCart}>
+    <Modal isOpen={Cart.isOpen} onClose={CartActions.closeCart}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>My cart</ModalHeader>
@@ -74,7 +71,7 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
                 <ProductPreviewCart
                   key={item.id}
                   data={item}
-                  onClick={() => CartActions.closeCart()}
+                  onClick={CartActions.closeCart}
                   onDecreaseAmount={() => CartActions.decreaseAmount(item.id)}
                   amount={getItemAmount(item.id, Cart.products)}
                   onAddAmount={() => CartActions.addAmount(item.id)}
@@ -104,7 +101,7 @@ const Cart = ({ isOpen, toggleCart }: CartProps) => {
           >
             Buy
           </Button>
-          <Button variant="ghost" onClick={toggleCart}>
+          <Button variant="ghost" onClick={CartActions.closeCart}>
             Close
           </Button>
         </ModalFooter>

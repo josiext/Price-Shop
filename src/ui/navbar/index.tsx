@@ -19,14 +19,15 @@ import { productCategory } from "@prisma/client";
 
 import Icon from "ui/icon";
 import { COLORS } from "theme";
+import { useCartContext } from "core/cart/context";
 
 export interface NavbarProps {
-  toggleCart: () => void;
   categories: productCategory[];
 }
 
-export default function Navbar({ toggleCart, categories }: NavbarProps) {
+export default function Navbar({ categories }: NavbarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [_, CartActions] = useCartContext();
 
   return (
     <>
@@ -44,7 +45,13 @@ export default function Navbar({ toggleCart, categories }: NavbarProps) {
           </Link>
         </HStack>
         <Input placeholder="Search.." bg="#fff" maxW="600px" />
-        <Button onClick={toggleCart} p="2" variant="unstyled" d="flex" gap="1">
+        <Button
+          onClick={CartActions.toggleCart}
+          p="2"
+          variant="unstyled"
+          d="flex"
+          gap="1"
+        >
           <Icon name="cart" color={COLORS.SECONDARY} width="35px" />
           <Text color="#fff" h="full" d="flex" flexDir="column-reverse">
             Cart

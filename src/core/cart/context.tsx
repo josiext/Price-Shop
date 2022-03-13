@@ -17,6 +17,7 @@ const CartContext = createContext([defaultValues, {}] as [
   {
     openCart: () => void;
     closeCart: () => void;
+    toggleCart: () => void;
     addProduct: (id: Product["id"]) => void;
     removeProduct: (id: Product["id"]) => void;
     decreaseAmount: (id: Product["id"]) => void;
@@ -92,10 +93,15 @@ const useCart = () => {
     setState({ ...state, isOpen: true });
   };
 
+  const toggleCart = () => {
+    setState({ ...state, isOpen: !state.isOpen });
+  };
+
   const actions = {
     closeCart,
     openCart,
     addProduct,
+    toggleCart,
     removeProduct,
     decreaseAmount,
     addAmount,
