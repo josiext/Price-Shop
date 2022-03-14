@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { SimpleGrid } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import Link from "next/link";
 
 import { Product } from "core/products/types";
@@ -11,15 +11,15 @@ export interface ProductListProps {
 
 const ProductList: NextPage<ProductListProps> = ({ products }) => {
   return (
-    <SimpleGrid columns={[1, 2, 3, 4]} spacing={"10px"}>
+    <Grid templateColumns="repeat(auto-fill, minmax(300px, 1fr))" gap="40px">
       {products?.map((product) => (
         <Link href={`/product/${product.id}`} key={product.id}>
           <a>
-            <ProductPreview data={product} maxWidth="350px" />
+            <ProductPreview data={product} maxWidth="450px" />
           </a>
         </Link>
       ))}
-    </SimpleGrid>
+    </Grid>
   );
 };
 
