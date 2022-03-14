@@ -15,6 +15,7 @@ import {
   Heading,
   HStack,
   Flex,
+  Center,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { product, productCategory } from "@prisma/client";
@@ -75,29 +76,60 @@ export default function Navbar({ categories }: NavbarProps) {
 
   return (
     <>
-      <Box as="nav" bg="primary" d="flex" justifyContent="space-between" p="5">
-        <HStack>
-          <Button onClick={onOpen} variant="unstyled" p="2">
-            <Icon name="menu" color="#fff" />
+      <Box as="nav" bg="primary" p="4">
+        <Flex d="flex" justifyContent="space-between" mx="auto" maxW="1400px">
+          <HStack gap="4">
+            <Button onClick={onOpen} variant="unstyled" p="2">
+              <Icon name="menu" color="#fff" />
+            </Button>
+            <Link href="/">
+              <a>
+                <Heading color="#fff" as="h1">
+                  PriceShop
+                </Heading>
+              </a>
+            </Link>
+          </HStack>
+
+          <Button
+            onClick={CartActions.toggleCart}
+            p="2"
+            variant="unstyled"
+            d="flex"
+            gap="1"
+          >
+            <Icon name="cart" color={COLORS.SECONDARY} width="35px" />
+            <Text
+              color="#fff"
+              h="full"
+              d="flex"
+              flexDir="column-reverse"
+              fontSize="lg"
+            >
+              Cart
+            </Text>
           </Button>
-          <Link href="/">
-            <a>
-              <Heading color="#fff" as="h1">
-                PriceShop
-              </Heading>
-            </a>
-          </Link>
-        </HStack>
-        <Flex position="relative" flexDir="column" w="full">
+        </Flex>
+      </Box>
+
+      <Box bg="primary" p={4}>
+        <Box
+          position="relative"
+          d="flex"
+          flexDir="column"
+          maxW="1400px"
+          mx="auto"
+        >
           <Input
             ref={inputSearchEl}
-            placeholder="Search.."
+            placeholder="Search..."
             bg="#fff"
             maxW="full"
             onChange={(e) => setSearchProduct(e.target.value)}
             value={searchProduct}
             onClick={() => searchProduct && setShowProductList(true)}
           />
+
           {showProductList && (
             <Box
               ref={productListEl}
@@ -120,20 +152,7 @@ export default function Navbar({ categories }: NavbarProps) {
               )}
             </Box>
           )}
-        </Flex>
-
-        <Button
-          onClick={CartActions.toggleCart}
-          p="2"
-          variant="unstyled"
-          d="flex"
-          gap="1"
-        >
-          <Icon name="cart" color={COLORS.SECONDARY} width="35px" />
-          <Text color="#fff" h="full" d="flex" flexDir="column-reverse">
-            Cart
-          </Text>
-        </Button>
+        </Box>
       </Box>
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>

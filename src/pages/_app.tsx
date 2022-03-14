@@ -14,7 +14,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <CartContextProvider>
       <ChakraProvider theme={theme}>
         <Navbar categories={productCategories} />
-        <Box mx="4" mt="4">
+        <Box pt="4" px="4" maxW="1400px" mx="auto">
           <Component {...pageProps} />
         </Box>
 
