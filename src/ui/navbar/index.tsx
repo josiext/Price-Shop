@@ -15,36 +15,31 @@ import {
   Heading,
   HStack,
   Flex,
-  Center,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { product, productCategory } from "@prisma/client";
+import { productCategory } from "@prisma/client";
 
 import Icon from "ui/icon";
 import { COLORS } from "theme";
 import { useCartContext } from "core/cart/context";
-import { Product } from "core/products/types";
+import { useSearchProduct } from "core/products/hooks";
 
 export interface NavbarProps {
   categories: productCategory[];
 }
 
-const fetcher = async (search: string): Promise<Product[]> => {
-  const res = await fetch(`/api/search-product?search=${search}`);
-  if (!res.ok) return [];
-  return res.json() as Promise<Product[]>;
-};
-
 export default function Navbar({ categories }: NavbarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [_, CartActions] = useCartContext();
-  const [searchProduct, setSearchProduct] = useState<string>("");
-  const [products, setProducts] = useState<product[] | []>([]);
-  const [showProductList, setShowProductList] = useState(false);
   const productListEl = useRef<HTMLDivElement | null>(null);
   const inputSearchEl = useRef<HTMLInputElement | null>(null);
-
-  const [prev, setPrev] = useState<any>(null);
+  const {
+    productSearch,
+    changeProductSearch,
+    changeShowProducts,
+    showProducts,
+    products,
+  } = useSearchProduct();
 
   useEffect(() => {
     window.addEventListener("mousedown", handleClose);
@@ -52,25 +47,12 @@ export default function Navbar({ categories }: NavbarProps) {
     return () => window.removeEventListener("mousedown", handleClose);
   }, []);
 
-  useEffect(() => {
-    // TODO mover a custom hook
-
-    if (prev) clearTimeout(prev);
-    if (!searchProduct) setShowProductList(false);
-    else setShowProductList(true);
-
-    const x = setTimeout(() => {
-      fetcher(searchProduct).then(setProducts);
-    }, 400);
-    setPrev(x);
-  }, [searchProduct]);
-
   const handleClose = (e: any) => {
     if (
       !productListEl?.current?.isSameNode(e.target) &&
       !inputSearchEl?.current?.isSameNode(e.target)
     ) {
-      setShowProductList(false);
+      changeShowProducts(false);
     }
   };
 
@@ -125,12 +107,12 @@ export default function Navbar({ categories }: NavbarProps) {
             placeholder="Search..."
             bg="#fff"
             maxW="full"
-            onChange={(e) => setSearchProduct(e.target.value)}
-            value={searchProduct}
-            onClick={() => searchProduct && setShowProductList(true)}
+            onChange={(e) => changeProductSearch(e.target.value)}
+            value={productSearch}
+            onClick={() => productSearch && changeShowProducts(true)}
           />
 
-          {showProductList && (
+          {showProducts && (
             <Box
               ref={productListEl}
               position="absolute"
