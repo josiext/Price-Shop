@@ -56,7 +56,7 @@ export default function Navbar({ categories }: NavbarProps) {
     // TODO mover a custom hook
 
     if (prev) clearTimeout(prev);
-    if (!searchProduct && showProductList === true) setShowProductList(false);
+    if (!searchProduct) setShowProductList(false);
     else setShowProductList(true);
 
     const x = setTimeout(() => {
