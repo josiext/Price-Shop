@@ -61,7 +61,7 @@ export default function Navbar({ categories }: NavbarProps) {
 
     const x = setTimeout(() => {
       fetcher(searchProduct).then(setProducts);
-    }, 600);
+    }, 400);
     setPrev(x);
   }, [searchProduct]);
 
