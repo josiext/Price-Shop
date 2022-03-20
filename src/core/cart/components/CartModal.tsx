@@ -78,7 +78,7 @@ const Cart = () => {
               ))}
             </VStack>
           ) : (
-            <Text color="gray.400">No products added to this cart</Text>
+            <Text color="gray.400">No products added to the cart</Text>
           )}
 
           <Box d="flex" justifyContent="space-between" mt="7">
