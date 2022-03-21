@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -15,6 +15,7 @@ import {
   Heading,
   HStack,
   Flex,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { productCategory } from "@prisma/client";
@@ -31,30 +32,15 @@ export interface NavbarProps {
 export default function Navbar({ categories }: NavbarProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [_, CartActions] = useCartContext();
-  const productListEl = useRef<HTMLDivElement | null>(null);
-  const inputSearchEl = useRef<HTMLInputElement | null>(null);
+
   const {
-    productSearch,
-    changeProductSearch,
-    changeShowProducts,
-    showProducts,
-    products,
+    search,
+    productList,
+    showProductList,
+    setSearch,
+    closeProductList,
+    openProductList,
   } = useSearchProduct();
-
-  useEffect(() => {
-    window.addEventListener("mousedown", handleClose);
-
-    return () => window.removeEventListener("mousedown", handleClose);
-  }, []);
-
-  const handleClose = (e: any) => {
-    if (
-      !productListEl?.current?.isSameNode(e.target) &&
-      !inputSearchEl?.current?.isSameNode(e.target)
-    ) {
-      changeShowProducts(false);
-    }
-  };
 
   return (
     <>
@@ -101,20 +87,20 @@ export default function Navbar({ categories }: NavbarProps) {
           flexDir="column"
           maxW="1400px"
           mx="auto"
+          onMouseLeave={closeProductList}
         >
           <Input
-            ref={inputSearchEl}
             placeholder="Search..."
             bg="#fff"
             maxW="full"
-            onChange={(e) => changeProductSearch(e.target.value)}
-            value={productSearch}
-            onClick={() => productSearch && changeShowProducts(true)}
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+            onClick={() => search && openProductList()}
+            onMouseEnter={() => search && openProductList()}
           />
 
-          {showProducts && (
+          {showProductList && (
             <Box
-              ref={productListEl}
               position="absolute"
               borderWidth="1px"
               top="41px"
@@ -122,10 +108,24 @@ export default function Navbar({ categories }: NavbarProps) {
               bg="white"
               p="4"
               borderRadius="md"
+              zIndex="modal"
             >
-              {products && products?.length > 0 ? (
-                products.map((product) => (
-                  <Box key={product.id}>{product.name}</Box>
+              {productList?.length > 0 ? (
+                productList.map((product) => (
+                  <Box
+                    key={product.id}
+                    onClick={() => {
+                      closeProductList();
+                      setSearch("");
+                    }}
+                    _hover={{ backgroundColor: "#f8f8f8" }}
+                  >
+                    <Link href={`/product/${product.id}`} passHref>
+                      <ChakraLink d="block" p="1">
+                        {product.name}
+                      </ChakraLink>
+                    </Link>
+                  </Box>
                 ))
               ) : (
                 <Text color="gray.400" textAlign="center">
