@@ -150,12 +150,23 @@ export default function Navbar({ categories }: NavbarProps) {
           <DrawerBody>
             <VStack alignItems="left">
               {categories.map((item) => (
-                <Link key={item.id} href={`/product-categories/${item.id}`}>
-                  <a onClick={onClose}>
-                    <Text fontSize="2xl" fontWeight="semibold">
-                      {item.label}
-                    </Text>
-                  </a>
+                <Link
+                  key={item.id}
+                  href={`/product-categories/${item.id}`}
+                  passHref
+                >
+                  <ChakraLink
+                    d="block"
+                    p="1"
+                    fontSize="2xl"
+                    fontWeight="semibold"
+                    onClick={onClose}
+                    _hover={{
+                      bg: "#f8f8f8",
+                    }}
+                  >
+                    {item.label}
+                  </ChakraLink>
                 </Link>
               ))}
             </VStack>
