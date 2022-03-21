@@ -1,4 +1,4 @@
-import { Box, Badge, BoxProps } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 import Image from "next/image";
 
 import { DEFAULT_PROUDUCT_IMAGE } from "utils/images";
@@ -30,12 +30,6 @@ export default function ProductPreview({ data, ...rest }: ProductPreviewProps) {
         />
       </Box>
       <Box p="6">
-        <Box display="flex" alignItems="baseline">
-          <Badge borderRadius="full" px="2" colorScheme="teal">
-            New
-          </Badge>
-        </Box>
-
         <Box
           mt="1"
           fontWeight="semibold"

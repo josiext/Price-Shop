@@ -20,7 +20,7 @@ export default function ProductView({
   return (
     <Box>
       <Text mb="2" fontSize="sm" color="gray">
-        Product id: {data.id}
+        {data.id}
       </Text>
 
       <Image
