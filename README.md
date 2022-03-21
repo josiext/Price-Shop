@@ -4,6 +4,7 @@ An E-commerce Full-Stack App created with NextJS and Chakra UI.
 
 Interesting things used:
 
+- Responsive Design
 - Sequelize
 - SWR
 - Debounce
