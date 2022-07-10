@@ -1,27 +1,25 @@
 # PriceShop e-commerce
 
-An E-commerce Full-Stack App created with NextJS and Chakra UI.
+![app](./images/main.PNG)
 
-Interesting things used:
+Full-Stack E-commerce App.
 
+**Technologies:**
+
+- Next.js
+- Typescript
 - Responsive Design
-- Sequelize
+- Chakra UI
+- Prisma
 - SWR
 - Debounce
-- Context
-- Custom Hooks
+- Context API
 
 ## Installation
 
-- Create an empty postgres database and use `env.example` to create a `.env` file and to define its environment variables
-
-- Use the query in `prisma/seed.db` to seed the database.
-
-- Install the project libraries
-
-  ```
-  npm install
-  ```
+1. Create an empty postgres database and create a `.env` file (see `.example.env` file) to define environment variables
+2. Use the query defined in `prisma/seed.db` to seed the database.
+3. Install libreries: `npm install`
 
 ## Start
 
